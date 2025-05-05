@@ -1,6 +1,6 @@
 import sys
 import os
-sys.path.append(os.path.join(sys.path[0],"kicad-footprint-generator"))
+sys.path.append(os.path.join(sys.path[0], "kicad-footprint-generator"))
 
 from KicadModTree import *
 
@@ -21,6 +21,8 @@ def offset_all(nodes, by):
 BOTTOM_PRIMITIVES = [
     Polygon(nodes=offset_all([
         (CHAMFER_SIZE, 0),
+        (CHAMFER_SIZE, -SIZE_TOP[1]),
+        (SIZE_BOTTOM[0] - CHAMFER_SIZE, -SIZE_TOP[1]),
         (SIZE_BOTTOM[0] - CHAMFER_SIZE, 0),
         (SIZE_BOTTOM[0], CHAMFER_SIZE),
         
