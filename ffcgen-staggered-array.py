@@ -12,6 +12,7 @@ SIZE_TOP = (0.4, 1.2)
 SPACING_TOP_BOTTOM = 0
 CHAMFER_SIZE = 0.15
 BOTTOM_LEADOUT_HEIGHT = 0.3
+INVERT = True
 DISTANCE_BETWEEN_PADS = 2*PITCH - SIZE_BOTTOM[0]
 LEADOUT_WIDTH = SIZE_BOTTOM[0] - 2*CHAMFER_SIZE
 TOP_LEADOUT_HEIGHT = BOTTOM_LEADOUT_HEIGHT + SIZE_BOTTOM[1]
@@ -61,13 +62,14 @@ FILENAME = f"FFC{PINCOUNT_TOP + PINCOUNT_BOTTOM}_{PITCH}.kicad_mod"
 kicad_mod = Footprint(NAME)
 
 position_x = 0
-# Generate bottoms
-kicad_mod.append(PadArray(start=[0, 0], initial=1,
-    pincount=PINCOUNT_TOP, increment=2,  x_spacing=PITCH * 2, size=(LEADOUT_WIDTH, TOP_LEADOUT_HEIGHT),
+# Generate tops
+kicad_mod.append(PadArray(start=[0, 0], initial=((PINCOUNT_BOTTOM + PINCOUNT_TOP) if INVERT else 1),
+    pincount=PINCOUNT_TOP, increment=-2 if INVERT else 2,  x_spacing=PITCH * 2, size=(LEADOUT_WIDTH, TOP_LEADOUT_HEIGHT),
     type=Pad.TYPE_SMT, shape=Pad.SHAPE_CUSTOM, layers=Pad.LAYERS_SMT, primitives=TOP_PRIMITIVES, anchor_shape=Pad.ANCHOR_RECT))
 
-kicad_mod.append(PadArray(start=[PITCH, SIZE_TOP[1]*0.5 + SPACING_TOP_BOTTOM], initial=2,
-    pincount=PINCOUNT_BOTTOM, increment=2,  x_spacing=PITCH * 2, size=(LEADOUT_WIDTH, BOTTOM_LEADOUT_HEIGHT),
+# Generate bottoms
+kicad_mod.append(PadArray(start=[PITCH, SIZE_TOP[1]*0.5 + SPACING_TOP_BOTTOM], initial=((PINCOUNT_BOTTOM + PINCOUNT_TOP - 1) if INVERT else 1),
+    pincount=PINCOUNT_BOTTOM, increment=-2 if INVERT else 2,  x_spacing=PITCH * 2, size=(LEADOUT_WIDTH, BOTTOM_LEADOUT_HEIGHT),
     type=Pad.TYPE_SMT, shape=Pad.SHAPE_CUSTOM, layers=Pad.LAYERS_SMT, primitives=BOTTOM_PRIMITIVES, anchor_shape=Pad.ANCHOR_RECT))
 
 
