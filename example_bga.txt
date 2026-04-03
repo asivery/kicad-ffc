@@ -1,0 +1,10 @@
+name testbga
+dimensions 5 x 5
+ballcount 10
+pitch 0.8
+diameter 0.4
+number lambda x, y: 'ABCDEFGH'[y] + str(x + 1)
+
+0 1 1 1
+1 1 1 1
+0 1 1 1
